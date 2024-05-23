@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ごろうクエスト２</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>ごろうクエスト２</h1>
+  <p id="moneyDisplay">所持金: 0円</p>
+  <button onclick="doWork()">肉体労働</button>
+  <button onclick="doPartTimeJob()">アルバイト</button>
+  <button onclick="startBusiness()">起業</button>
+  <button onclick="tryWin5()">WIN5</button>
+
+  <audio id="victoryAudio" src="victory.mp3"></audio>
+
+  <script>
+    let money = 0;
+    let seconds = 0;
+    const moneyDisplay = document.getElementById('moneyDisplay');
+    const victoryAudio = document.getElementById('victoryAudio');
+
+    function updateMoneyDisplay() {
+      moneyDisplay.textContent = `所持金: ${money}円`;
+    }
+
+    function doWork() {
+      money += 399;
+      updateMoneyDisplay();
+    }
+
+    function doPartTimeJob() {
+      money += 800;
+      updateMoneyDisplay();
+    }
+
+    function startBusiness() {
+      if (money >= 100000000) {
+        money -= 100000000;
+        updateMoneyDisplay();
+        alert('起業成功！がんばってビジネスを成長させよう！');
+        setInterval(function() {
+          seconds++;
+          if (seconds % 100 === 0 && Math.random() < 0.5) {
+            money += 60000000000;
+            alert('WIN5に当選しました！6000億円を獲得しました！');
+            playVictoryMusic();
+          }
+          if (seconds % 1 === 0) {
+            money *= 2;
+          }
+          updateMoneyDisplay();
+        }, 1000);
+      } else {
+        alert('お金が足りません！借金取りが現れて銃で撃たれ、ごろうは死んでしまいました...');
+        document.body.innerHTML = '<h1>ゲームオーバー</h1>';
+      }
+    }
+
+    function tryWin5() {
+      if (Math.random() < 0.5) {
+        money += 60000000000;
+        alert('WIN5に当選しました！6000億円を獲得しました！');
+        playVictoryMusic();
+      } else {
+        alert('WIN5には当選しませんでした...');
+      }
+      updateMoneyDisplay();
+    }
+
+    function playVictoryMusic() {
+      victoryAudio.play();
+    }
+  </script>
+</body>
+</html>
